@@ -31,10 +31,13 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Seed Admin User
-        User admin = userRepository.findByEmail("admin@smartjira.com").orElseGet(() -> {
-            User u = new User("System Administrator", "admin@smartjira.com", passwordEncoder.encode("admin123"), "+1 800 555 0199", "admin");
-            return userRepository.save(u);
-        });
+        User admin = userRepository.findByEmail("yaswanthreddygajjala9@gmail.com")
+                .orElseGet(() -> userRepository.findByEmail("admin@smartjira.com").orElseGet(() -> new User("System Administrator", "yaswanthreddygajjala9@gmail.com", passwordEncoder.encode("Gani@2006"), "+1 800 555 0199", "admin")));
+        
+        admin.setEmail("yaswanthreddygajjala9@gmail.com");
+        admin.setPasswordHash(passwordEncoder.encode("Gani@2006"));
+        admin.setRole("admin");
+        userRepository.save(admin);
 
         // Seed Visitor User
         User visitor = userRepository.findByEmail("visitor@example.com").orElseGet(() -> {

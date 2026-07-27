@@ -37,8 +37,8 @@ const Login = ({ onSuccess }) => {
 
   // Discreet helper for admin sign-in
   const handleAdminFill = () => {
-    setEmail('admin@smartjira.com');
-    setPassword('admin123');
+    setEmail('yaswanthreddygajjala9@gmail.com');
+    setPassword('Gani@2006');
     setIsRegister(false);
     setError('');
   };
