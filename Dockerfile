@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY backend/ ./backend/
 WORKDIR /app/backend
-RUN chmod +x mvnw && ./mvnw clean package -DskipTests
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw && ./mvnw clean package -DskipTests
 
 # Run Stage
 FROM eclipse-temurin:17-jre-alpine

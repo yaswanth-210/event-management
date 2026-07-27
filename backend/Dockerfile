@@ -3,7 +3,7 @@ FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 
 COPY . .
-RUN chmod +x mvnw && ./mvnw clean package -DskipTests
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw && ./mvnw clean package -DskipTests
 
 # Run Stage
 FROM eclipse-temurin:17-jre-alpine
