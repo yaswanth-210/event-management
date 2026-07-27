@@ -1,11 +1,13 @@
-# Build Stage
-FROM eclipse-temurin:17-jdk-alpine AS build
+# Build Stage using official Maven image
+FROM maven:3.9-eclipse-temurin-17-alpine AS build
 WORKDIR /app
 
-COPY . .
-RUN sed -i 's/\r$//' mvnw && chmod +x mvnw && ./mvnw clean package -DskipTests
+COPY pom.xml .
+COPY src ./src
 
-# Run Stage
+RUN mvn clean package -DskipTests
+
+# Runtime Stage
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
