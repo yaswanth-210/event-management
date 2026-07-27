@@ -1,0 +1,21 @@
+# Maven build output
+**/target/
+**/*.class
+**/*.jar
+
+# Node dependencies and build
+**/node_modules/
+**/dist/
+**/.vite/
+
+# Database files
+**/data/
+**/*.db
+**/*.mv.db
+
+# IDE and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
