@@ -37,8 +37,8 @@ const Login = ({ onSuccess }) => {
 
   // Discreet helper for admin sign-in
   const handleAdminFill = () => {
-    setEmail('yaswanthreddygajjala9@gmail.com');
-    setPassword('Gani@2006');
+    setEmail('admin2006@gmail.com');
+    setPassword('admin2006');
     setIsRegister(false);
     setError('');
   };
