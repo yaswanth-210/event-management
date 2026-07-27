@@ -103,8 +103,12 @@ const TicketPass = ({ ticket, onDownload, onPrint }) => {
           {/* High quality scannable QR Code display */}
           <div className="relative group/qr p-2 bg-white rounded-2xl shadow-xl border-2 border-slate-700/50">
             <img
-              src={`http://localhost:5000${ticket.qr_image_path}`}
+              src={`${BACKEND_URL}${ticket.qr_image_path}`}
               alt={`QR Code ${ticket.ticket_code}`}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(ticket.ticket_code || 'TICK-PASS')}`;
+              }}
               className="w-36 h-36 object-contain rounded-lg transition-transform group-hover/qr:scale-105 duration-300"
             />
           </div>
