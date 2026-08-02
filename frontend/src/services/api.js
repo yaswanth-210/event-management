@@ -267,12 +267,25 @@ export const scannerAPI = {
 export const crowdAPI = {
   getLive: (eventId) => requestWithFallback(
     () => api.get(`/crowd/live/${eventId}`),
-    () => ({ currentCount: 245, maxCapacity: 500, occupancyRate: '49%', status: 'NORMAL' })
+    () => ({
+      locations: [
+        { location: 'Entrance Gate A', current_crowd: 142, max_capacity: 150, occupancy_pct: 94.6, status: 'Warning' },
+        { location: 'Main Stage Arena', current_crowd: 480, max_capacity: 500, occupancy_pct: 96.0, status: 'Alert' },
+        { location: 'Food & Beverage Plaza', current_crowd: 180, max_capacity: 300, occupancy_pct: 60.0, status: 'Normal' },
+        { location: 'VIP Lounge', current_crowd: 45, max_capacity: 100, occupancy_pct: 45.0, status: 'Normal' },
+        { location: 'North Exit Gate', current_crowd: 85, max_capacity: 200, occupancy_pct: 42.5, status: 'Normal' }
+      ],
+      alerts: [
+        { id: 1, severity: 'Alert', location: 'Main Stage Arena', message: 'High density alert: Occupancy exceeded 95% near front stage barrier', timestamp: 'Just now' },
+        { id: 2, severity: 'Warning', location: 'Entrance Gate A', message: 'Gate queue buildup: Queue length exceeding 15 meters', timestamp: '2m ago' }
+      ]
+    })
   ),
   getAlerts: () => requestWithFallback(
     () => api.get('/crowd/alerts'),
     () => [
-      { id: 1, type: 'CAPACITY_WARNING', message: 'Gate 2 throughput elevated', timestamp: 'Just now', severity: 'medium' }
+      { id: 1, severity: 'Alert', location: 'Main Stage Arena', message: 'High density alert: Occupancy exceeded 95% near front stage barrier', timestamp: 'Just now' },
+      { id: 2, severity: 'Warning', location: 'Entrance Gate A', message: 'Gate queue buildup: Queue length exceeding 15 meters', timestamp: '2m ago' }
     ]
   )
 };
@@ -289,13 +302,28 @@ export const analyticsAPI = {
   ),
   getPredictions: (eventId) => requestWithFallback(
     () => api.get(`/analytics/predictions/${eventId}`),
-    () => ({ predictedPeak: '02:30 PM', expectedTotal: 480, riskScore: 'Low' })
+    () => ({
+      predicted_crowd: 485,
+      predicted_peak_time: '02:30 PM - 04:00 PM',
+      predicted_waiting_time_min: 4,
+      predicted_occupancy_pct: 92,
+      predictedTurnoutPct: 92.4,
+      riskLevel: 'Low'
+    })
   ),
   getChartData: (eventId) => requestWithFallback(
     () => api.get(`/analytics/chart-data/${eventId}`),
     () => ({
-      labels: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
-      data: [30, 85, 160, 290, 380, 420, 450]
+      line_chart: {
+        labels: ['09:00 AM', '11:00 AM', '01:00 PM', '03:00 PM', '05:00 PM', '07:00 PM', '09:00 PM'],
+        data: [45, 120, 280, 410, 520, 580, 430]
+      },
+      bar_chart: {
+        labels: ['Entrance', 'Main Stage', 'Food Court', 'VIP Lounge', 'Exit Gate'],
+        data: [142, 480, 180, 45, 85]
+      },
+      hourly_labels: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+      hourly_entries: [25, 68, 142, 198, 260, 310, 240]
     })
   )
 };
