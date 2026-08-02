@@ -1,5 +1,7 @@
 package com.smartevent.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -26,21 +28,33 @@ public class Event {
     @Column(nullable = false, length = 20)
     private String date;
 
+    @JsonProperty("start_time")
+    @JsonAlias({"startTime", "start_time"})
     @Column(nullable = false, length = 20)
     private String startTime;
 
+    @JsonProperty("end_time")
+    @JsonAlias({"endTime", "end_time"})
     @Column(nullable = false, length = 20)
     private String endTime;
 
+    @JsonProperty("max_capacity")
+    @JsonAlias({"maxCapacity", "max_capacity"})
     @Column(nullable = false)
     private Integer maxCapacity = 500;
 
+    @JsonProperty("remaining_seats")
+    @JsonAlias({"remainingSeats", "remaining_seats"})
     @Column(nullable = false)
     private Integer remainingSeats = 500;
 
+    @JsonProperty("ticket_price")
+    @JsonAlias({"ticketPrice", "ticket_price"})
     @Column(nullable = false)
     private Double ticketPrice = 0.0;
 
+    @JsonProperty("banner_image")
+    @JsonAlias({"bannerImage", "banner_image"})
     @Column(length = 256)
     private String bannerImage;
 

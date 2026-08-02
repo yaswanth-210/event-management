@@ -33,12 +33,12 @@ public class EventController {
         return ResponseEntity.ok(eventService.getEventById(id));
     }
 
-    @PostMapping
+    @PostMapping(consumes = {org.springframework.http.MediaType.APPLICATION_JSON_VALUE, "application/json;charset=UTF-8", org.springframework.http.MediaType.ALL_VALUE})
     public ResponseEntity<EventDTO> createEvent(@RequestBody Event event) {
         return ResponseEntity.ok(eventService.createEvent(event));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = {org.springframework.http.MediaType.APPLICATION_JSON_VALUE, "application/json;charset=UTF-8", org.springframework.http.MediaType.ALL_VALUE})
     public ResponseEntity<EventDTO> updateEvent(@PathVariable Long id, @RequestBody Event event) {
         return ResponseEntity.ok(eventService.updateEvent(id, event));
     }

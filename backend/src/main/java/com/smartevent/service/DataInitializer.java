@@ -30,16 +30,20 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Seed Admin User
-        User admin = userRepository.findByEmail("admin2006@gmail.com")
-                .orElseGet(() -> userRepository.findByEmail("yaswanthreddygajjala9@gmail.com")
-                .orElseGet(() -> userRepository.findByEmail("admin@smartjira.com")
-                .orElseGet(() -> new User("System Administrator", "admin2006@gmail.com", passwordEncoder.encode("admin2006"), "+1 800 555 0199", "admin"))));
-        
-        admin.setEmail("admin2006@gmail.com");
-        admin.setPasswordHash(passwordEncoder.encode("admin2006"));
-        admin.setRole("admin");
-        userRepository.save(admin);
+        // Seed Admin Users
+        User admin1 = userRepository.findByEmail("admin2006@gmail.com")
+                .orElseGet(() -> new User("System Administrator", "admin2006@gmail.com", passwordEncoder.encode("admin2006"), "+1 800 555 0199", "admin"));
+        admin1.setEmail("admin2006@gmail.com");
+        admin1.setPasswordHash(passwordEncoder.encode("admin2006"));
+        admin1.setRole("admin");
+        userRepository.save(admin1);
+
+        User admin2 = userRepository.findByEmail("yaswanthreddygajjala9@gmail.com")
+                .orElseGet(() -> new User("Yaswanth Reddy (Admin)", "yaswanthreddygajjala9@gmail.com", passwordEncoder.encode("admin2006"), "+1 800 555 0199", "admin"));
+        admin2.setEmail("yaswanthreddygajjala9@gmail.com");
+        admin2.setPasswordHash(passwordEncoder.encode("admin2006"));
+        admin2.setRole("admin");
+        userRepository.save(admin2);
 
         // Seed Visitor User
         User visitor = userRepository.findByEmail("visitor@example.com").orElseGet(() -> {

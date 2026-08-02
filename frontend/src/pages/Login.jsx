@@ -29,7 +29,11 @@ const Login = ({ onSuccess }) => {
       }
       if (onSuccess) onSuccess();
     } catch (err) {
-      setError(err.response?.data?.error || 'Authentication failed. Please verify your email and password.');
+      if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+        setError('Connection timed out. Please verify that the backend server is running on port 5000.');
+      } else {
+        setError(err.response?.data?.error || err.response?.data?.message || 'Authentication failed. Please verify your email and password.');
+      }
     } finally {
       setLoading(false);
     }

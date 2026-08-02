@@ -32,16 +32,20 @@ public class AuthDTOs {
     }
 
     public static class AuthResponse {
+        private String token;
         private String access_token;
         private UserDTO user;
 
-        public AuthResponse(String access_token, UserDTO user) {
-            this.access_token = access_token;
+        public AuthResponse(String token, UserDTO user) {
+            this.token = token;
+            this.access_token = token;
             this.user = user;
         }
 
+        public String getToken() { return token; }
+        public void setToken(String token) { this.token = token; this.access_token = token; }
         public String getAccess_token() { return access_token; }
-        public void setAccess_token(String access_token) { this.access_token = access_token; }
+        public void setAccess_token(String access_token) { this.access_token = access_token; this.token = access_token; }
         public UserDTO getUser() { return user; }
         public void setUser(UserDTO user) { this.user = user; }
     }

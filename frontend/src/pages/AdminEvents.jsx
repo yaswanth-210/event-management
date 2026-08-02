@@ -93,34 +93,31 @@ const AdminEvents = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('description', description);
-      formData.append('category', category);
-      formData.append('venue', venue);
-      formData.append('date', date);
-      formData.append('start_time', startTime);
-      formData.append('end_time', endTime);
-      formData.append('max_capacity', maxCapacity);
-      formData.append('ticket_price', ticketPrice);
-      formData.append('status', status);
-      if (bannerImage) {
-        formData.append('banner_image', bannerImage);
-      }
+      const payload = {
+        name,
+        description,
+        category,
+        venue,
+        date,
+        start_time: startTime,
+        end_time: endTime,
+        max_capacity: parseInt(maxCapacity) || 500,
+        remaining_seats: parseInt(maxCapacity) || 500,
+        ticket_price: parseFloat(ticketPrice) || 0,
+        status,
+        banner_image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80'
+      };
 
       if (editingEvent) {
-        await eventAPI.update(editingEvent.id, {
-          name, description, category, venue, date, start_time: startTime, end_time: endTime,
-          max_capacity: maxCapacity, ticket_price: ticketPrice, status
-        });
+        await eventAPI.update(editingEvent.id, payload);
       } else {
-        await eventAPI.create(formData);
+        await eventAPI.create(payload);
       }
 
       setShowModal(false);
       fetchEvents();
     } catch (err) {
-      alert(err.response?.data?.error || 'Failed to save event');
+      alert(err.response?.data?.error || err.response?.data?.message || 'Failed to save event');
     } finally {
       setSaving(false);
     }
