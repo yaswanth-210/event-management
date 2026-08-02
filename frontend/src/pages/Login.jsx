@@ -21,13 +21,14 @@ const Login = ({ onSuccess }) => {
     setLoading(true);
 
     try {
+      let authRes;
       if (isRegister) {
         // Public registration defaults to visitor role
-        await register(name, email, password, phone, 'visitor');
+        authRes = await register(name, email, password, phone, 'visitor');
       } else {
-        await login(email, password);
+        authRes = await login(email, password);
       }
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(authRes?.user);
     } catch (err) {
       if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
         setError('Connection timed out. Please verify that the backend server is running on port 5000.');

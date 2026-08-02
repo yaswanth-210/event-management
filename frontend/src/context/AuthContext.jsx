@@ -4,18 +4,35 @@ import { authAPI } from '../services/api';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('user');
+    try {
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  });
+
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
       authAPI.me()
-        .then((res) => setUser(res.data.user))
-        .catch(() => {
-          localStorage.removeItem('token');
-          setToken(null);
-          setUser(null);
+        .then((res) => {
+          if (res.data?.user) {
+            setUser(res.data.user);
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+          }
+        })
+        .catch((err) => {
+          // Only clear session if backend explicitly returns 401 Unauthorized
+          if (err.response?.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            setToken(null);
+            setUser(null);
+          }
         })
         .finally(() => setLoading(false));
     } else {
@@ -25,22 +42,33 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const res = await authAPI.login({ email, password });
-    localStorage.setItem('token', res.data.token);
-    setToken(res.data.token);
-    setUser(res.data.user);
+    const tokenVal = res.data.token || res.data.access_token;
+    const userVal = res.data.user;
+
+    if (tokenVal) localStorage.setItem('token', tokenVal);
+    if (userVal) localStorage.setItem('user', JSON.stringify(userVal));
+
+    setToken(tokenVal);
+    setUser(userVal);
     return res.data;
   };
 
   const register = async (name, email, password, phone, role) => {
     const res = await authAPI.register({ name, email, password, phone, role });
-    localStorage.setItem('token', res.data.token);
-    setToken(res.data.token);
-    setUser(res.data.user);
+    const tokenVal = res.data.token || res.data.access_token;
+    const userVal = res.data.user;
+
+    if (tokenVal) localStorage.setItem('token', tokenVal);
+    if (userVal) localStorage.setItem('user', JSON.stringify(userVal));
+
+    setToken(tokenVal);
+    setUser(userVal);
     return res.data;
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
   };

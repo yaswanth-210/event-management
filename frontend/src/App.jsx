@@ -27,7 +27,7 @@ const AppContent = () => {
       case 'home':
         return <Home onSelectEvent={() => {}} />;
       case 'login':
-        return <Login onSuccess={() => setActiveTab(isAdmin ? 'dashboard' : 'visitor-tickets')} />;
+        return <Login onSuccess={(loggedInUser) => setActiveTab((loggedInUser?.role === 'admin' || user?.role === 'admin') ? 'dashboard' : 'visitor-tickets')} />;
       case 'dashboard':
         return <AdminDashboard onNavigate={setActiveTab} />;
       case 'events':
