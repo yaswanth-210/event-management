@@ -94,17 +94,23 @@ const AdminEvents = () => {
     setSaving(true);
     try {
       const payload = {
-        name,
-        description,
-        category,
-        venue,
-        date,
-        start_time: startTime,
-        end_time: endTime,
+        name: name || 'New Event',
+        description: description || '',
+        category: category || 'General',
+        venue: venue || 'Main Venue',
+        date: date || '2026-08-30',
+        startTime: startTime || '09:00 AM',
+        start_time: startTime || '09:00 AM',
+        endTime: endTime || '05:00 PM',
+        end_time: endTime || '05:00 PM',
+        maxCapacity: parseInt(maxCapacity) || 500,
         max_capacity: parseInt(maxCapacity) || 500,
+        remainingSeats: parseInt(maxCapacity) || 500,
         remaining_seats: parseInt(maxCapacity) || 500,
+        ticketPrice: parseFloat(ticketPrice) || 0,
         ticket_price: parseFloat(ticketPrice) || 0,
-        status,
+        status: status || 'Active',
+        bannerImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80',
         banner_image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80'
       };
 

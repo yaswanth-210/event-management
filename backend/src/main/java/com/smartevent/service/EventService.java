@@ -40,8 +40,35 @@ public class EventService {
     }
 
     public EventDTO createEvent(Event event) {
+        if (event.getName() == null || event.getName().trim().isEmpty()) {
+            event.setName("New Event");
+        }
+        if (event.getStartTime() == null || event.getStartTime().trim().isEmpty()) {
+            event.setStartTime("09:00 AM");
+        }
+        if (event.getEndTime() == null || event.getEndTime().trim().isEmpty()) {
+            event.setEndTime("05:00 PM");
+        }
+        if (event.getCategory() == null || event.getCategory().trim().isEmpty()) {
+            event.setCategory("General");
+        }
+        if (event.getVenue() == null || event.getVenue().trim().isEmpty()) {
+            event.setVenue("Main Venue");
+        }
+        if (event.getDate() == null || event.getDate().trim().isEmpty()) {
+            event.setDate("2026-08-30");
+        }
+        if (event.getMaxCapacity() == null || event.getMaxCapacity() <= 0) {
+            event.setMaxCapacity(500);
+        }
         if (event.getRemainingSeats() == null) {
             event.setRemainingSeats(event.getMaxCapacity());
+        }
+        if (event.getTicketPrice() == null) {
+            event.setTicketPrice(0.0);
+        }
+        if (event.getStatus() == null || event.getStatus().trim().isEmpty()) {
+            event.setStatus("Active");
         }
         Event saved = eventRepository.save(event);
         return EventDTO.fromEntity(saved);

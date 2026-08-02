@@ -14,49 +14,49 @@ public class Event {
     private Long id;
 
     @Column(nullable = false, length = 150)
-    private String name;
+    private String name = "New Event";
 
     @Column(columnDefinition = "TEXT")
-    private String description;
+    private String description = "";
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = true, length = 50)
     private String category = "General";
 
-    @Column(nullable = false, length = 150)
-    private String venue;
+    @Column(nullable = true, length = 150)
+    private String venue = "Main Venue";
 
-    @Column(nullable = false, length = 20)
-    private String date;
+    @Column(nullable = true, length = 20)
+    private String date = "2026-08-30";
 
     @JsonProperty("start_time")
     @JsonAlias({"startTime", "start_time"})
-    @Column(nullable = false, length = 20)
-    private String startTime;
+    @Column(nullable = true, length = 20)
+    private String startTime = "09:00 AM";
 
     @JsonProperty("end_time")
     @JsonAlias({"endTime", "end_time"})
-    @Column(nullable = false, length = 20)
-    private String endTime;
+    @Column(nullable = true, length = 20)
+    private String endTime = "05:00 PM";
 
     @JsonProperty("max_capacity")
     @JsonAlias({"maxCapacity", "max_capacity"})
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer maxCapacity = 500;
 
     @JsonProperty("remaining_seats")
     @JsonAlias({"remainingSeats", "remaining_seats"})
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer remainingSeats = 500;
 
     @JsonProperty("ticket_price")
     @JsonAlias({"ticketPrice", "ticket_price"})
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Double ticketPrice = 0.0;
 
     @JsonProperty("banner_image")
     @JsonAlias({"bannerImage", "banner_image"})
     @Column(length = 256)
-    private String bannerImage;
+    private String bannerImage = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1000&q=80";
 
     @Column(length = 20)
     private String status = "Active"; // "Upcoming", "Active", "Completed", "Closed"
@@ -83,23 +83,41 @@ public class Event {
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
 
+    @JsonProperty("start_time")
     public String getStartTime() { return startTime; }
-    public void setStartTime(String startTime) { this.startTime = startTime; }
+    @JsonProperty("start_time")
+    @JsonAlias({"startTime", "start_time"})
+    public void setStartTime(String startTime) { if (startTime != null) this.startTime = startTime; }
 
+    @JsonProperty("end_time")
     public String getEndTime() { return endTime; }
-    public void setEndTime(String endTime) { this.endTime = endTime; }
+    @JsonProperty("end_time")
+    @JsonAlias({"endTime", "end_time"})
+    public void setEndTime(String endTime) { if (endTime != null) this.endTime = endTime; }
 
+    @JsonProperty("max_capacity")
     public Integer getMaxCapacity() { return maxCapacity; }
-    public void setMaxCapacity(Integer maxCapacity) { this.maxCapacity = maxCapacity; }
+    @JsonProperty("max_capacity")
+    @JsonAlias({"maxCapacity", "max_capacity"})
+    public void setMaxCapacity(Integer maxCapacity) { if (maxCapacity != null) this.maxCapacity = maxCapacity; }
 
+    @JsonProperty("remaining_seats")
     public Integer getRemainingSeats() { return remainingSeats; }
-    public void setRemainingSeats(Integer remainingSeats) { this.remainingSeats = remainingSeats; }
+    @JsonProperty("remaining_seats")
+    @JsonAlias({"remainingSeats", "remaining_seats"})
+    public void setRemainingSeats(Integer remainingSeats) { if (remainingSeats != null) this.remainingSeats = remainingSeats; }
 
+    @JsonProperty("ticket_price")
     public Double getTicketPrice() { return ticketPrice; }
-    public void setTicketPrice(Double ticketPrice) { this.ticketPrice = ticketPrice; }
+    @JsonProperty("ticket_price")
+    @JsonAlias({"ticketPrice", "ticket_price"})
+    public void setTicketPrice(Double ticketPrice) { if (ticketPrice != null) this.ticketPrice = ticketPrice; }
 
+    @JsonProperty("banner_image")
     public String getBannerImage() { return bannerImage; }
-    public void setBannerImage(String bannerImage) { this.bannerImage = bannerImage; }
+    @JsonProperty("banner_image")
+    @JsonAlias({"bannerImage", "banner_image"})
+    public void setBannerImage(String bannerImage) { if (bannerImage != null) this.bannerImage = bannerImage; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
