@@ -98,6 +98,21 @@ public class DataInitializer implements CommandLineRunner {
             e3.setStatus("Upcoming");
             eventRepository.save(e3);
 
+            Event e4 = new Event();
+            e4.setName("Anirudh Live Concert");
+            e4.setDescription("Experience live acoustics, electronic synthesizer visualizers, and energetic performances by Anirudh Ravichander.");
+            e4.setCategory("Entertainment");
+            e4.setVenue("Chepauk Stadium");
+            e4.setDate("2026-08-30");
+            e4.setStartTime("09:00 AM");
+            e4.setEndTime("05:00 PM");
+            e4.setMaxCapacity(500);
+            e4.setRemainingSeats(500);
+            e4.setTicketPrice(150.00);
+            e4.setBannerImage("https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1000&q=80");
+            e4.setStatus("Upcoming");
+            eventRepository.save(e4);
+
             // Register demo ticket for visitor
             try {
                 ticketService.registerTicket(visitor.getId(), savedE1.getId());

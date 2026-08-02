@@ -62,13 +62,36 @@ const defaultEvents = [
     ticket_price: 0.00,
     banner_image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1000&q=80',
     status: 'Upcoming'
+  },
+  {
+    id: 4,
+    name: 'Anirudh Live Concert',
+    description: 'Experience live acoustics, electronic synthesizer visualizers, and energetic performances by Anirudh Ravichander.',
+    category: 'Entertainment',
+    venue: 'Chepauk Stadium',
+    date: '2026-08-30',
+    start_time: '09:00 AM',
+    end_time: '05:00 PM',
+    max_capacity: 500,
+    remaining_seats: 500,
+    ticket_price: 150.00,
+    banner_image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1000&q=80',
+    status: 'Upcoming'
   }
 ];
 
 const getLocalEvents = () => {
   const stored = localStorage.getItem('smart_events');
   if (stored) {
-    try { return JSON.parse(stored); } catch (e) { /* fallback */ }
+    try {
+      const list = JSON.parse(stored);
+      const hasAnirudh = list.some(e => e.name && e.name.toLowerCase().includes('anirudh'));
+      if (!hasAnirudh) {
+        list.push(defaultEvents[3]);
+        localStorage.setItem('smart_events', JSON.stringify(list));
+      }
+      return list;
+    } catch (e) { /* fallback */ }
   }
   localStorage.setItem('smart_events', JSON.stringify(defaultEvents));
   return defaultEvents;
