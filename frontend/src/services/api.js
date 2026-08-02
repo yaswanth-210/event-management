@@ -151,7 +151,7 @@ export const eventAPI = {
 
   getActive: () => requestWithFallback(
     () => api.get('/events/active'),
-    () => getLocalEvents().filter(e => e.status === 'Active' || e.status === 'Upcoming')
+    () => getLocalEvents().filter(e => e.status !== 'Closed' && e.status !== 'Completed')
   ),
 
   getById: (id) => requestWithFallback(

@@ -28,9 +28,10 @@ public class EventService {
     }
 
     public List<EventDTO> getActiveEvents() {
-        return eventRepository.findByStatus("Active").stream()
-                .map(EventDTO::fromEntity)
+        List<Event> events = eventRepository.findAll().stream()
+                .filter(e -> e.getStatus() == null || (!e.getStatus().equalsIgnoreCase("Closed") && !e.getStatus().equalsIgnoreCase("Completed")))
                 .collect(Collectors.toList());
+        return events.stream().map(EventDTO::fromEntity).collect(Collectors.toList());
     }
 
     public EventDTO getEventById(Long id) {
